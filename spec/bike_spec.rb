@@ -13,13 +13,13 @@ describe Bike do
 		expect(bike).not_to have_user
 	end
 
-	it 'can be not broken' do
-		expect(bike.broken).to be_false
+	it 'is not broken when created' do
+		expect(bike).not_to be_broken
 	end
 
 	it 'can be broken' do
-		user = double :user, { fall_down: @broken = true }
-		expect(bike.broken).to be_true
+		bike.break
+		expect(bike).to be_broken
 	end
 
 end
