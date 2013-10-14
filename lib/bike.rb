@@ -4,7 +4,7 @@ class Bike
 	
 	def initialize (user = nil)
 		@user = user
-		@broken = false
+		fix
 	end
 
 	def has_user?
@@ -17,6 +17,10 @@ class Bike
 
 	def break
 		@broken = true
+	end
+
+	def fix
+		@broken = false
 	end
 
 end
