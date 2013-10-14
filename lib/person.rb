@@ -17,7 +17,7 @@ class Person
 	end
 
 	def return_bike_to station
-		@bike = nil
+		@bike = station.accept_bike
 	end
 
 end
