@@ -1,14 +1,7 @@
 class Bike
-
-	# attr_reader :broken
 	
-	def initialize (user = nil)
-		@user = user
-		fix
-	end
-
-	def has_user?
-		!@user.nil?
+	def initialize 
+		@broken = false
 	end
 
 	def broken?
@@ -20,7 +13,7 @@ class Bike
 	end
 
 	def fix
-		@broken = false
+		initialize
 	end
 
 end

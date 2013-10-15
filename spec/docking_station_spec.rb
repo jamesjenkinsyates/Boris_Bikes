@@ -42,13 +42,31 @@ describe DockingStation do
 	it 'knows which bikes are working' do
   	station.dock(bike)
   	station.dock(broken_bike)
-  	expect(station.available_bikes).to eq([bike])
+  	expect(station.working_bikes).to eq([bike])
   end
 
   it 'knows which bikes are broken' do
   	station.dock(bike)
   	station.dock(broken_bike)
   	expect(station.broken_bikes).to eq([broken_bike])
+  end
+
+  it 'releases a broken bike' do
+  	station.dock(bike)
+  	station.dock(broken_bike)
+  	expect(station.release_broken_bike).to eq(broken_bike)
+  end
+
+  it 'releases all broken bikes' do
+  	station.dock(bike)
+  	3.times { station.dock(broken_bike) }
+  	expect(station.release_all_broken_bikes().length).to eq 3
+  end
+
+  it 'releases a select number of broken bikes' do
+  	station.dock(bike)
+  	18.times { station.dock(broken_bike) }
+  	expect(station.release_x_broken_bikes(2).length).to eq 2
   end
 
 end
