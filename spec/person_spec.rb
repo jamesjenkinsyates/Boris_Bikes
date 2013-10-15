@@ -28,7 +28,7 @@ describe Person do
 	end
 
 	it 'has a bike after renting from a station' do
-		station = double :station, { release_bike: :bike }
+		station = double :station, release_bike: :bike 
 		person.rent_bike_from station		
 		expect(person).to have_bike		
 	end

@@ -15,12 +15,12 @@ describe DockingStation do
 	it 'releases a bike' do
 		station.dock(bike)
 		expect(station.bike_count).to eq 1
-		station.release
+		station.release_bike
 		expect(station.bike_count).to eq 0
 	end	
 
 	it 'tells you if there are no bikes to be released at the station' do
-		expect(lambda { station.release } ).to raise_error(RuntimeError)
+		expect(lambda { station.release_bike } ).to raise_error(RuntimeError)
 	end
 
 	it 'knows if the station is full' do
