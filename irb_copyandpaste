@@ -1,0 +1,16 @@
+require './lib/van.rb'
+require './lib/person.rb'
+require './lib/docking_station.rb'
+require './lib/bike.rb'
+
+station = DockingStation.new Array.new(10, Bike.new)
+bikes = Array.new(10, Bike.new)
+
+bikes.each { |bike| bike.break! }
+
+
+bikes.each { |bike| station.dock bike }
+
+
+station2 = DockingStation.new Array.new(10, Bike.new)
+van = Van.new

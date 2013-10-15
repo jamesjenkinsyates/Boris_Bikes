@@ -13,7 +13,7 @@ class Van
 		@bikes << station.release_broken_bike
 	end
 
-	def bike_count
+	def bike_count 
 		@bikes.count
 	end
 
@@ -37,8 +37,11 @@ class Van
 		@bikes.select { |bike| bike.broken? }
 	end
 
-	def dock_working_bike
+	def dock_working_bike 
 		@bikes.delete(working_bikes.first)
 	end
 
+	def dock_all_working_bikes station
+		@bikes.map{ dock_working_bike } if station.slots_available > working_bikes.count 
+	end
 end
