@@ -2,43 +2,53 @@ require 'docking_station'
 
 describe DockingStation do 
 
-	let(:station) { DockingStation.new }
+	let(:station) { DockingStation.new [], 20 }
+	let(:bike) { double :bike, broken?: false }
+	let(:broken_bike) { double :broken_bike, broken?: true }
 
 	it 'can accept a bike' do
-		bike = double :bike
 		expect(station.bike_count).to eq 0		
 		station.dock(bike)
 		expect(station.bike_count).to eq 1
 	end
 
-	it 'should release a bike' do
-		bike = double :bike
+	it 'releases a bike' do
 		station.dock(bike)
 		expect(station.bike_count).to eq 1
-		station.release(bike)
+		station.release
 		expect(station.bike_count).to eq 0
+	end	
+
+	it 'tells you if there are no bikes to be released at the station' do
+		expect(lambda { station.release } ).to raise_error(RuntimeError)
 	end
 
-	it 'should tell you if the bike you want to release is not at the station' do
-		bike = double :bike
-		expect(station.release(bike)).to eq "That bike is not in this docking station"
-	end
-
-	it 'should know if the station is full' do
-		bike = double :bike
+	it 'knows if the station is full' do
+		expect(station).not_to be_full
 		20.times { station.dock(bike) }
 		expect(station).to be_full
 	end
 
-	it 'should know if the station is not full' do
-		bike = double :bike
+	it 'knows if the station is not full' do
 		19.times { station.dock(bike) }
 		expect(station).not_to be_full
 	end
 
-	it 'should not let you dock a bike if the station is full' do
-		bike = double :bike
-		20.times { station.dock(bike) }
-		
+	it 'does not let you dock a bike if the station is full' do
+		20.times { station.dock(bike) }	
+		expect(lambda { station.dock(bike) }).to raise_error(RuntimeError)	
 	end
+
+	it 'knows which bikes are working' do
+  	station.dock(bike)
+  	station.dock(broken_bike)
+  	expect(station.available_bikes).to eq([bike])
+  end
+
+  it 'knows which bikes are broken' do
+  	station.dock(bike)
+  	station.dock(broken_bike)
+  	expect(station.broken_bikes).to eq([broken_bike])
+  end
+
 end

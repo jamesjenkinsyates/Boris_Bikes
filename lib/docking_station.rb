@@ -1,7 +1,8 @@
 class DockingStation
 
-	def initialize 
-		@bikes = []
+	def initialize bikes = [], capacity = 20 
+		@bikes = bikes
+		@capacity = capacity
 	end
 
 	def bike_count
@@ -9,16 +10,29 @@ class DockingStation
 	end
 
 	def dock bike
+		raise "Station is full" if full?
 		@bikes << bike
 	end
 
-	def release bike
-		@bikes.delete(bike) if @bikes.include? bike
-		"That bike is not in this docking station"
+	def release 
+		raise "There are no bikes in this station" if @bikes.empty?
+		@bikes.pop 
 	end
 
 	def full?
-		@bikes.count == 20
+		bike_count == @capacity
+	end
+
+	def fill_station station
+		@capacity.times { station.dock(:bike) }
+	end
+
+	def available_bikes 
+		@bikes.reject { |bike| bike.broken? }
+	end
+
+	def broken_bikes
+		@bikes.select { |bike| bike.broken? }
 	end
 
 end
