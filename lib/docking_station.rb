@@ -1,5 +1,5 @@
 class DockingStation
-
+	# attr_accessor :bikes
 	def initialize bikes = [], capacity = 20
 		@bikes = bikes
 		@capacity = capacity
@@ -21,6 +21,10 @@ class DockingStation
 
 	def full?
 		bike_count == @capacity
+	end
+
+	def slots_available
+		@capacity - bike_count
 	end
 
 	def fill_station station

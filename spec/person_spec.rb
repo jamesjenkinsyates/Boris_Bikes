@@ -4,6 +4,7 @@ describe Person do
 
 	let(:person) { Person.new }
 	let(:station) { double :station }
+	let(:bike) {double :bike}
 
 	it 'has no bike' do
 		expect(person).not_to have_bike
@@ -40,11 +41,16 @@ describe Person do
 		person.return_bike_to(station)
 	end
 
-		it 'has no bike after returning to a station' do
+	it 'has no bike after returning to a station' do
 		person = Person.new :bike
 		station = double :station, { dock: nil }
 		person.return_bike_to station		
 		expect(person).not_to have_bike		
 	end
 
+	it 'cannot rent a bike if already has one' do
+		station = double :station, { release_bike: bike }
+		person = Person.new :bike
+		expect(person.rent_bike_from(station)).to be_false
+	end
 end

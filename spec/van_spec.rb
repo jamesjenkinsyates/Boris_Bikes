@@ -2,7 +2,7 @@ require 'van'
 
 describe Van do
 
-	let(:van) { van = Van.new }
+	let(:van) { Van.new }
 	let(:bike) { double :bike, broken?: false }
 	let(:broken_bike) { double :broken_bike, broken?: true }
 	let(:station) { double :station }
@@ -45,8 +45,11 @@ describe Van do
 		
 
 	it 'can be filled with broken bikes' do
-		expect(station).to receive(:release_x_broken_bikes) 
-		van.fill_with_broken_bikes_from(station)
+    # station = double :station, { release_x_broken_bikes: broken_bike }
+		# expect(station).to receive(release_x_broken_bikes: broken_bike)
+    
+    van.fill_with_broken_bikes_from station
+    expect(van.bike_count).to eq > 2
 	end
 
 	it 'has broken bikes after filling with broken bikes' do
@@ -56,19 +59,20 @@ describe Van do
 	end
 
 	it 'knows which bikes are working' do
-  	van = Van.new [bike, bike, bike, broken_bike, broken_bike]
-  	expect(van.working_bikes).to eq([bike, bike, bike])
-  end
+		van = Van.new [bike, bike, bike, broken_bike, broken_bike]
+		expect(van.working_bikes).to eq([bike, bike, bike])
+	end
 
-  it 'knows which bikes are broken' do
-  	van = Van.new [bike, bike, bike, broken_bike, broken_bike]
-  	expect(van.broken_bikes).to eq([broken_bike, broken_bike])
-  end
+	it 'knows which bikes are broken' do
+		van = Van.new [bike, bike, bike, broken_bike, broken_bike]
+		expect(van.broken_bikes).to eq([broken_bike, broken_bike])
+	end
 
-  it 'returns a working bike to a station' do
-  	van = Van.new [bike, broken_bike]
-  	van.dock_working_bike
-  	expect(van.working_bikes).to eq []
-  end
+	it 'returns all working bikes to a station' do
+    station = double :station, { :slots_available => 7 }
+  	van = Van.new [bike, bike, bike, bike, broken_bike]
+  	van.dock_all_working_bikes station
+  	expect(van.bike_count).to eq 1
+	end
 
 end
